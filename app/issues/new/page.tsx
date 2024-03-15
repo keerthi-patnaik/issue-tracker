@@ -6,12 +6,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Callout, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-import { SimpleMdeReact } from "react-simplemde-editor";
 import { z } from "zod";
+
+const SimpleMdeReact = dynamic(() => import("react-simplemde-editor"), {
+  ssr: false,
+});
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
@@ -47,7 +51,7 @@ const NewIssuePage = () => {
       <form className="max-w-xl space-y-3" onSubmit={handleSubmit(onSubmit)}>
         <TextField.Root>
           <TextField.Input
-            className="focus:border-1 focus:border-cyan-100"
+            className="focus:border-slate-50 focus:ring-1 focus:ring-cyan-500"
             placeholder="Title"
             {...register("title")}
           />
@@ -55,22 +59,24 @@ const NewIssuePage = () => {
         {errors.title && (
           <p className="text-sm text-rose-700">{errors.title.message}</p>
         )}
-        <Controller
-          name="description"
-          control={control}
-          render={({ field }) => {
-            return (
-              <SimpleMdeReact
-                {...field}
-                className={cn(
-                  "[&:focus-within_.editor-toolbar]:border-x-1 [&:focus-within_.editor-toolbar]:border-t-1 [&:focus-within_.editor-toolbar]:border-x-cyan-500 [&:focus-within_.editor-toolbar]:border-t-cyan-500",
-                  "[&:focus-within_.CodeMirror-wrap]:border-x-1 [&:focus-within_.CodeMirror-wrap]:border-b-1 [&:focus-within_.CodeMirror-wrap]:border-x-cyan-500 [&:focus-within_.CodeMirror-wrap]:border-b-cyan-500",
-                )}
-                placeholder="Description"
-              />
-            );
-          }}
-        />
+        <div className="h-96">
+          <Controller
+            name="description"
+            control={control}
+            render={({ field: { ref, ...field } }) => {
+              return (
+                <SimpleMdeReact
+                  {...field}
+                  className={cn(
+                    "[&:focus-within_.editor-toolbar]:border-x-1 [&:focus-within_.editor-toolbar]:border-t-1 [&:focus-within_.editor-toolbar]:border-x-cyan-500 [&:focus-within_.editor-toolbar]:border-t-cyan-500",
+                    "[&:focus-within_.CodeMirror-wrap]:border-x-1 [&:focus-within_.CodeMirror-wrap]:border-b-1 [&:focus-within_.CodeMirror-wrap]:border-x-cyan-500 [&:focus-within_.CodeMirror-wrap]:border-b-cyan-500",
+                  )}
+                  placeholder="Description"
+                />
+              );
+            }}
+          />
+        </div>
         {errors.description && (
           <p className="text-sm text-rose-700">{errors.description.message}</p>
         )}
