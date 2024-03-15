@@ -23,7 +23,7 @@ type IssueFormData = z.infer<typeof issueSchema>;
 
 const NewIssuePage = () => {
   const [error, setError] = useState("");
-  const [isLoading, setLoading] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
   const router = useRouter();
   const {
     register,
@@ -33,13 +33,13 @@ const NewIssuePage = () => {
   } = useForm<IssueFormData>({ resolver: zodResolver(issueSchema) });
 
   const onSubmit = async (data: FieldValues) => {
-    setLoading(true);
+    setSubmitting(true);
     try {
       await axios.post("/api/issues", data);
       router.push("/issues");
     } catch (error) {
-      setLoading(false);
-      setError("A unexpected error has happened");
+      setSubmitting(false);
+      setError("A unexpected error has occurred");
     }
   };
 
@@ -84,8 +84,8 @@ const NewIssuePage = () => {
         </div>
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
-        <Button disabled={isLoading}>
-          Submit New Issue {isLoading && <Spinner />}
+        <Button disabled={isSubmitting}>
+          Submit New Issue {isSubmitting && <Spinner />}
         </Button>
       </form>
     </>
