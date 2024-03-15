@@ -1,9 +1,10 @@
 "use client";
 
+import ErrorMessage from "@/app/components/Errormessage";
 import { cn } from "@/lib";
 import { issueSchema } from "@/lib/ValidationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Callout, Text, TextField } from "@radix-ui/themes";
+import { Button, Callout, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import dynamic from "next/dynamic";
@@ -56,11 +57,9 @@ const NewIssuePage = () => {
             {...register("title")}
           />
         </TextField.Root>
-        {errors.title && (
-          <Text as="p" className="text-sm text-rose-700">
-            {errors.title.message}
-          </Text>
-        )}
+
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
+
         <div className="h-96">
           <Controller
             name="description"
@@ -79,11 +78,7 @@ const NewIssuePage = () => {
             }}
           />
         </div>
-        {errors.description && (
-          <Text as="p" className="text-sm text-rose-700">
-            {errors.description.message}
-          </Text>
-        )}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
         <Button type="submit">Submit New Issue</Button>
       </form>
