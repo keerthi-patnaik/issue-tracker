@@ -56,7 +56,7 @@ const NewIssuePage = () => {
       <form className="max-w-xl space-y-3" onSubmit={handleSubmit(onSubmit)}>
         <TextField.Root>
           <TextField.Input
-            className="focus:border-slate-50 focus:ring-1 focus:ring-cyan-500"
+            className="focus:border-slate-50 focus:ring-1 focus:ring-teal-500"
             placeholder="Title"
             {...register("title")}
           />
@@ -64,7 +64,7 @@ const NewIssuePage = () => {
 
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
 
-        <div className="h-96">
+        <div className="md:h-96">
           <Controller
             name="description"
             control={control}
@@ -73,8 +73,8 @@ const NewIssuePage = () => {
                 <SimpleMdeReact
                   {...field}
                   className={cn(
-                    "[&:focus-within_.editor-toolbar]:border-x-1 [&:focus-within_.editor-toolbar]:border-t-1 [&:focus-within_.editor-toolbar]:border-x-cyan-500 [&:focus-within_.editor-toolbar]:border-t-cyan-500",
-                    "[&:focus-within_.CodeMirror-wrap]:border-x-1 [&:focus-within_.CodeMirror-wrap]:border-b-1 [&:focus-within_.CodeMirror-wrap]:border-x-cyan-500 [&:focus-within_.CodeMirror-wrap]:border-b-cyan-500",
+                    "[&:focus-within_.editor-toolbar]:border-x-1 [&:focus-within_.editor-toolbar]:border-t-1 [&:focus-within_.editor-toolbar]:border-x-teal-500 [&:focus-within_.editor-toolbar]:border-t-teal-500",
+                    "[&:focus-within_.CodeMirror-wrap]:border-x-1 [&:focus-within_.CodeMirror-wrap]:border-b-1 [&:focus-within_.CodeMirror-wrap]:border-x-teal-500 [&:focus-within_.CodeMirror-wrap]:border-b-teal-500",
                   )}
                   placeholder="Description"
                 />
