@@ -63,8 +63,7 @@ const NewIssuePage = () => {
         </TextField.Root>
 
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
-
-        <div className="md:h-96">
+        <div className="h-96">
           <Controller
             name="description"
             control={control}
