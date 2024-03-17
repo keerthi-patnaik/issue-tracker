@@ -1,7 +1,6 @@
 "use client";
 
-import ErrorMessage from "@/app/components/ErrorMessage";
-import Spinner from "@/app/components/Spinner";
+import { ErrorMessage, Spinner } from "@/app/components";
 import { cn } from "@/lib";
 import { issueSchema } from "@/lib/ValidationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
