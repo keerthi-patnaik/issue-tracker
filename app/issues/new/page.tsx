@@ -1,6 +1,6 @@
 "use client";
 
-import ErrorMessage from "@/app/components/Errormessage";
+import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
 import { cn } from "@/lib";
 import { issueSchema } from "@/lib/ValidationSchema";
