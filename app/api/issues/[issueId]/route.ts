@@ -1,0 +1,41 @@
+import { issueSchema } from "@/lib/ValidationSchema";
+import prisma from "@/prisma/client";
+import { NextRequest, NextResponse } from "next/server";
+
+type IssueProps = {
+  params: { issueId: string };
+};
+
+// api: [PATCH] /api/issues/[issueId]
+export async function PATCH(request: NextRequest, { params }: IssueProps) {
+  // Request body
+  const body = await request.json();
+
+  // Check if the body is in correct format
+  const validation = issueSchema.safeParse(body);
+  // if body is not correct return 400 error
+  if (!validation.success) {
+    return NextResponse.json(validation.error.format(), { status: 400 });
+  }
+
+  // check if id is already in the db
+  const issue = await prisma.issue.findUnique({
+    where: { id: parseInt(params.issueId) },
+  });
+  if (!issue) {
+    // if id is not in db then return 404 error
+    return NextResponse.json("Invalid Request", { status: 404 });
+  }
+
+  // update issue
+  const updatedIssue = await prisma.issue.update({
+    where: { id: parseInt(params.issueId) },
+    data: {
+      title: body.title,
+      description: body.description,
+    },
+  });
+
+  // return updated issue with 200 success
+  return NextResponse.json(updatedIssue, { status: 200 });
+}

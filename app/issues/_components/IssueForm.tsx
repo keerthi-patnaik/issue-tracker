@@ -34,13 +34,23 @@ const IssueForm = ({ issue }: IssueFormProps) => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<IssueFormData>({ resolver: zodResolver(issueSchema) });
+  } = useForm<IssueFormData>({
+    resolver: zodResolver(issueSchema),
+    defaultValues: issue,
+  });
 
   const onSubmit = async (data: FieldValues) => {
     setSubmitting(true);
+
     try {
-      await axios.post("/api/issues", data);
+      if (issue) {
+        await axios.patch(`/api/issues/${issue.id}`, data);
+      } else {
+        await axios.post("/api/issues", data);
+      }
+
       router.push("/issues");
+      router.refresh();
     } catch (error) {
       setSubmitting(false);
       setError("A unexpected error has occurred");
@@ -62,7 +72,6 @@ const IssueForm = ({ issue }: IssueFormProps) => {
           <TextField.Input
             className="focus:border-slate-50 focus:ring-1 focus:ring-teal-500"
             placeholder="Title"
-            defaultValue={issue?.title}
             {...register("title")}
           />
         </TextField.Root>
@@ -72,7 +81,6 @@ const IssueForm = ({ issue }: IssueFormProps) => {
           <Controller
             name="description"
             control={control}
-            defaultValue={issue?.description}
             render={({ field: { ref, ...field } }) => {
               return (
                 <SimpleMdeReact
@@ -90,7 +98,8 @@ const IssueForm = ({ issue }: IssueFormProps) => {
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
         <Button disabled={isSubmitting}>
-          Submit New Issue {isSubmitting && <Spinner />}
+          {issue ? "Update Issue" : "Submit New Issue"}
+          {isSubmitting && <Spinner />}
         </Button>
       </form>
     </>

@@ -6,14 +6,14 @@ import IssueDetails from "./IssueDetails";
 import IssueEditButton from "./IssueEditButton";
 
 type IssueDetailsPageProps = {
-  params: { id: string };
+  params: { issueId: string };
 };
 
 const IssueDetailsPage = async ({ params }: IssueDetailsPageProps) => {
-  if (!isNumber(params.id)) notFound();
+  if (!isNumber(params.issueId)) notFound();
 
   const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: parseInt(params.issueId) },
   });
 
   if (!issue) notFound();
