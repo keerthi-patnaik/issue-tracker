@@ -1,9 +1,10 @@
 import { Link as RadixLink } from "@radix-ui/themes";
 import Link from "next/link";
+import { ReactNode } from "react";
 
 type CustomLinkProps = {
   href: string;
-  children: string;
+  children: string | ReactNode;
 };
 
 const CustomLink = ({ href, children }: CustomLinkProps) => {

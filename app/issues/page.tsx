@@ -1,6 +1,6 @@
 import { CustomLink, IssueStatusBadge } from "@/app/components";
 import prisma from "@/prisma/client";
-import { Table } from "@radix-ui/themes";
+import { Table, Text } from "@radix-ui/themes";
 import IssueToolbar from "./issueToolbar";
 
 const IssuePage = async () => {
@@ -27,7 +27,7 @@ const IssuePage = async () => {
               <Table.Row key={issue.id}>
                 <Table.Cell>
                   <CustomLink href={`/issues/${issue.id}`}>
-                    {issue.title}
+                    <Text className="font-medium">{issue.title}</Text>
                   </CustomLink>
                   <div className="block md:hidden">
                     <IssueStatusBadge status={issue.status} />
