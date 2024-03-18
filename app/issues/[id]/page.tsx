@@ -24,7 +24,7 @@ const IssueDetailsPage = async ({ params }: IssueDetailsPageProps) => {
         <IssueDetails issue={issue} />
       </Box>
       <Box>
-        <IssueEditButton href={`/issues/${issue.id}`} />
+        <IssueEditButton href={`/issues/${issue.id}/edit`} />
       </Box>
     </Grid>
   );
