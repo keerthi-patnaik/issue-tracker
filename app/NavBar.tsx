@@ -36,17 +36,17 @@ const NavBar = () => {
             <Link href="/">
               <AiFillBug />
             </Link>
-            <ul className="flex gap-3">
+            <ul className="flex items-center gap-3">
               {NavBarLinks.map((link, index) => {
                 return (
                   <li key={index}>
                     <Link
                       href={link.href}
                       className={cn(
-                        "transition-color px-4 py-1 text-sm text-slate-500",
+                        "flex items-center px-4 py-1 text-sm font-medium text-slate-700 transition-colors",
                         "hover:text-slate-900",
                         {
-                          "rounded-full bg-slate-100 text-slate-900":
+                          "rounded-md bg-slate-100 text-slate-900":
                             link.href === currentPath,
                         },
                       )}
@@ -83,7 +83,12 @@ const NavBar = () => {
               </DropdownMenu.Root>
             )}
             {status === "unauthenticated" && (
-              <Link href="/api/auth/signin">Login</Link>
+              <Link
+                className="flex items-center rounded-md px-4 py-1 text-sm font-medium text-slate-900 transition-colors hover:bg-slate-100"
+                href="/api/auth/signin"
+              >
+                Login
+              </Link>
             )}
           </Box>
         </Flex>
