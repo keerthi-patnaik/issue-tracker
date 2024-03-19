@@ -70,6 +70,7 @@ const NavBar = () => {
                     radius="full"
                     color="gray"
                     highContrast
+                    referrerPolicy="no-referrer"
                   />
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
