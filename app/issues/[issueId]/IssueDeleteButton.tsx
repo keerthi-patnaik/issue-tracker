@@ -12,11 +12,11 @@ type IssueDeleteButtonProps = {
 const IssueDeleteButton = ({ issueId }: IssueDeleteButtonProps) => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState("");
-  const [isSubmitting, setSubmitting] = useState(false);
+  const [isDeleting, setDeleting] = useState(false);
   const router = useRouter();
 
   const onDelete = async () => {
-    setSubmitting(true);
+    setDeleting(true);
     setError("");
     try {
       await axios.delete(`/api/issues/${issueId}`);
@@ -25,7 +25,7 @@ const IssueDeleteButton = ({ issueId }: IssueDeleteButtonProps) => {
       router.refresh();
       setOpen(false);
     } catch (error) {
-      setSubmitting(false);
+      setDeleting(false);
       setError("Sorry! This issue could not deleted. ");
     }
   };
@@ -51,8 +51,13 @@ const IssueDeleteButton = ({ issueId }: IssueDeleteButtonProps) => {
               <Button variant="soft">Cancel</Button>
             </AlertDialog.Cancel>
 
-            <Button color="gray" highContrast onClick={onDelete}>
-              Delete Issue {isSubmitting && <Spinner />}
+            <Button
+              color="gray"
+              disabled={isDeleting}
+              highContrast
+              onClick={onDelete}
+            >
+              Delete Issue {isDeleting && <Spinner />}
             </Button>
           </Flex>
           {error && <ErrorMessage>{error}</ErrorMessage>}
