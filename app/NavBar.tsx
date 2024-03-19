@@ -1,12 +1,15 @@
 "use client";
 
 import { cn } from "@/lib";
+import { Box } from "@radix-ui/themes";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
 
 const NavBar = () => {
   const currentPath = usePathname();
+  const { status, data: session } = useSession();
 
   const NavBarLinks = [
     {
@@ -26,23 +29,31 @@ const NavBar = () => {
       <ul className="flex items-center gap-6">
         {NavBarLinks.map((link, index) => {
           return (
-            <Link
-              key={index}
-              href={link.href}
-              className={cn(
-                "transition-color px-4 py-1 text-sm text-slate-500",
-                "hover:text-slate-900",
-                {
-                  "rounded-full bg-slate-100 text-slate-900":
-                    link.href === currentPath,
-                },
-              )}
-            >
-              {link.label}
-            </Link>
+            <li key={index}>
+              <Link
+                href={link.href}
+                className={cn(
+                  "transition-color px-4 py-1 text-sm text-slate-500",
+                  "hover:text-slate-900",
+                  {
+                    "rounded-full bg-slate-100 text-slate-900":
+                      link.href === currentPath,
+                  },
+                )}
+              >
+                {link.label}
+              </Link>
+            </li>
           );
         })}
       </ul>
+      <Box>
+        {status === "unauthenticated" ? (
+          <Link href="/api/auth/signin">LogIn</Link>
+        ) : (
+          <Link href="/api/auth/signout">Log out</Link>
+        )}
+      </Box>
     </nav>
   );
 };
