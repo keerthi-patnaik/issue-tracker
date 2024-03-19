@@ -13,6 +13,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
+import { Spinner } from "./components";
 
 const NavBar = () => {
   const currentPath = usePathname();
@@ -28,6 +29,7 @@ const NavBar = () => {
       href: "/issues/list",
     },
   ];
+
   return (
     <nav className="mb-5 border-b px-5 py-3">
       <Container>
@@ -90,6 +92,11 @@ const NavBar = () => {
               >
                 Login
               </Link>
+            )}
+            {status === "loading" && (
+              <Box className="w-20 text-center">
+                <Spinner />
+              </Box>
             )}
           </Box>
         </Flex>
