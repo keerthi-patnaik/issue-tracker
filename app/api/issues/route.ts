@@ -16,7 +16,11 @@ export async function POST(request: NextRequest) {
 
   // create new issue
   const newIssue = await prisma.issue.create({
-    data: { title: body.title, description: body.description },
+    data: {
+      title: body.title,
+      status: body.status,
+      description: body.description,
+    },
   });
 
   // return new issue with 201 success

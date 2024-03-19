@@ -4,8 +4,8 @@ import { ErrorMessage, Spinner } from "@/app/components";
 import { cn } from "@/lib";
 import { issueSchema } from "@/lib/ValidationSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Issue } from "@prisma/client";
-import { Button, Callout, TextField } from "@radix-ui/themes";
+import { Issue, Status } from "@prisma/client";
+import { Button, Callout, Flex, Select, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
@@ -32,11 +32,12 @@ const IssueForm = ({ issue }: IssueFormProps) => {
     formState: { errors },
   } = useForm<IssueFormData>({
     resolver: zodResolver(issueSchema),
-    defaultValues: issue,
+    defaultValues: issue || { status: Status.OPEN },
   });
 
   const onSubmit = async (data: FieldValues) => {
     setSubmitting(true);
+    console.log(data);
 
     try {
       if (issue) {
@@ -64,13 +65,36 @@ const IssueForm = ({ issue }: IssueFormProps) => {
         </Callout.Root>
       )}
       <form className="max-w-xl space-y-3" onSubmit={handleSubmit(onSubmit)}>
-        <TextField.Root>
-          <TextField.Input
-            className="focus:border-slate-50 focus:ring-1 focus:ring-teal-500"
-            placeholder="Title"
-            {...register("title")}
+        <Flex gap="3">
+          <TextField.Root className="flex-[2]">
+            <TextField.Input
+              className="focus:border-slate-50 focus:ring-1 focus:ring-cyan-500"
+              placeholder="Title"
+              {...register("title")}
+            />
+          </TextField.Root>
+
+          <Controller
+            name="status"
+            control={control}
+            render={({ field: { ref, onChange, ...field } }) => {
+              return (
+                <Select.Root {...field} onValueChange={onChange}>
+                  <Select.Trigger placeholder="Status" className="flex-1" />
+                  <Select.Content position="popper">
+                    {Object.keys(Status).map((status, index) => {
+                      return (
+                        <Select.Item key={index} value={status}>
+                          {status}
+                        </Select.Item>
+                      );
+                    })}
+                  </Select.Content>
+                </Select.Root>
+              );
+            }}
           />
-        </TextField.Root>
+        </Flex>
 
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <div className="h-96">
@@ -82,8 +106,8 @@ const IssueForm = ({ issue }: IssueFormProps) => {
                 <SimpleMdeReact
                   {...field}
                   className={cn(
-                    "[&:focus-within_.editor-toolbar]:border-x-1 [&:focus-within_.editor-toolbar]:border-t-1 [&:focus-within_.editor-toolbar]:border-x-teal-500 [&:focus-within_.editor-toolbar]:border-t-teal-500",
-                    "[&:focus-within_.CodeMirror-wrap]:border-x-1 [&:focus-within_.CodeMirror-wrap]:border-b-1 [&:focus-within_.CodeMirror-wrap]:border-x-teal-500 [&:focus-within_.CodeMirror-wrap]:border-b-teal-500",
+                    "[&:focus-within_.editor-toolbar]:border-x-1 [&:focus-within_.editor-toolbar]:border-t-1 [&:focus-within_.editor-toolbar]:border-x-cyan-500 [&:focus-within_.editor-toolbar]:border-t-cyan-500",
+                    "[&:focus-within_.CodeMirror-wrap]:border-x-1 [&:focus-within_.CodeMirror-wrap]:border-b-1 [&:focus-within_.CodeMirror-wrap]:border-x-cyan-500 [&:focus-within_.CodeMirror-wrap]:border-b-cyan-500",
                   )}
                   placeholder="Description"
                 />

@@ -32,6 +32,7 @@ export async function PATCH(request: NextRequest, { params }: IssueProps) {
     where: { id: parseInt(params.issueId) },
     data: {
       title: body.title,
+      status: body.status,
       description: body.description,
     },
   });
