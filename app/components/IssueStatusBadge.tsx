@@ -7,9 +7,9 @@ type IssueStatusBadgeProps = {
 
 const statusMap: Record<
   Status,
-  { label: string; color: "green" | "blue" | "orange" }
+  { label: string; color: "green" | "blue" | "red" }
 > = {
-  OPEN: { label: "Open", color: "orange" },
+  OPEN: { label: "Open", color: "red" },
   INPROGRESS: { label: "In Progress", color: "blue" },
   CLOSED: { label: "Closed", color: "green" },
 };

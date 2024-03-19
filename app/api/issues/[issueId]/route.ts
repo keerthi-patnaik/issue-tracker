@@ -24,7 +24,7 @@ export async function PATCH(request: NextRequest, { params }: IssueProps) {
   });
   if (!issue) {
     // if id is not in db then return 404 error
-    return NextResponse.json("Invalid Request", { status: 404 });
+    return NextResponse.json({ error: "Issue not found" }, { status: 404 });
   }
 
   // update issue
@@ -38,4 +38,21 @@ export async function PATCH(request: NextRequest, { params }: IssueProps) {
 
   // return updated issue with 200 success
   return NextResponse.json(updatedIssue, { status: 200 });
+}
+
+export async function DELETE(request: NextRequest, { params }: IssueProps) {
+  // check if id is already in the db
+  const issue = await prisma.issue.findUnique({
+    where: { id: parseInt(params.issueId) },
+  });
+  if (!issue) {
+    // if id is not in db then return 404 error
+    return NextResponse.json({ error: "Issue not found" }, { status: 404 });
+  }
+
+  await prisma.issue.delete({
+    where: { id: parseInt(params.issueId) },
+  });
+
+  return new Response(null, { status: 204 });
 }

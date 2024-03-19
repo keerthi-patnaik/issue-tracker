@@ -7,7 +7,7 @@ type IssueEditButtonProps = {
 
 const IssueEditButton = ({ href }: IssueEditButtonProps) => {
   return (
-    <ButtonLink href={href} className="w-32 gap-2">
+    <ButtonLink href={href} className="min-w-36 gap-2">
       <>
         <FaRegEdit />
         <span>Edit Issue</span>

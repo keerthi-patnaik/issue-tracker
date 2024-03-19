@@ -16,7 +16,7 @@ const IssueDetails = ({ issue }: IssueDetailsProps) => {
         <Text>{issue.createdAt.toLocaleDateString()}</Text>
       </Flex>
       <Card>
-        <Markdown className="prose">{issue.description}</Markdown>
+        <Markdown className="prose max-w-full">{issue.description}</Markdown>
       </Card>
     </>
   );

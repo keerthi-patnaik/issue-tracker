@@ -27,7 +27,7 @@ const IssuePage = async () => {
               <Table.Row key={issue.id}>
                 <Table.Cell>
                   <CustomLink href={`/issues/${issue.id}`}>
-                    <Text className="font-medium">{issue.title}</Text>
+                    <Text>{issue.title}</Text>
                   </CustomLink>
                   <div className="block md:hidden">
                     <IssueStatusBadge status={issue.status} />
