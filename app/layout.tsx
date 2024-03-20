@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import ClientProvider from "./ClientProvider";
 import NavBar from "./NavBar";
-import AuthProvider from "./components/AuthProvider";
 import "./globals.css";
 import "./theme-config.css";
 
@@ -24,14 +23,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.variable}>
         <ClientProvider>
-          <AuthProvider>
-            <Theme appearance="light" accentColor="cyan">
-              <NavBar />
-              <main className="p-5">
-                <Container>{children}</Container>
-              </main>
-            </Theme>
-          </AuthProvider>
+          <Theme appearance="light" accentColor="cyan">
+            <NavBar />
+            <main className="p-5">
+              <Container>{children}</Container>
+            </main>
+          </Theme>
         </ClientProvider>
       </body>
     </html>
