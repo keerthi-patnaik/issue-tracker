@@ -1,5 +1,7 @@
+import authOptions from "@/app/auth/authOptions";
 import { issueSchema } from "@/lib/ValidationSchema";
 import prisma from "@/prisma/client";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 type IssueProps = {
@@ -8,6 +10,12 @@ type IssueProps = {
 
 // api: [PATCH] /api/issues/[issueId]
 export async function PATCH(request: NextRequest, { params }: IssueProps) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return new Response(null, { status: 401 });
+  }
+
   // Request body
   const body = await request.json();
 
@@ -42,6 +50,12 @@ export async function PATCH(request: NextRequest, { params }: IssueProps) {
 }
 
 export async function DELETE(request: NextRequest, { params }: IssueProps) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return new Response(null, { status: 401 });
+  }
+
   // check if id is already in the db
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(params.issueId) },
