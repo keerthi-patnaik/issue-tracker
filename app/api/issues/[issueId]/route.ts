@@ -26,13 +26,23 @@ export async function PATCH(request: NextRequest, { params }: IssueProps) {
     return NextResponse.json(validation.error.format(), { status: 400 });
   }
 
-  // check if id is already in the db
+  // check if issueId is in the db
   const issue = await prisma.issue.findUnique({
     where: { id: parseInt(params.issueId) },
   });
   if (!issue) {
     // if id is not in db then return 404 error
     return NextResponse.json({ error: "Issue not found" }, { status: 404 });
+  }
+
+  //check is userId is in the db
+  if (body.assignedToUserId) {
+    const user = await prisma.user.findUnique({
+      where: { id: body.assignedToUserId },
+    });
+    if (!user) {
+      NextResponse.json({ error: "Invalid user" }, { status: 400 });
+    }
   }
 
   // update issue
@@ -42,6 +52,7 @@ export async function PATCH(request: NextRequest, { params }: IssueProps) {
       title: body.title,
       status: body.status,
       description: body.description,
+      assignedToUserId: body.assignedToUserId,
     },
   });
 
