@@ -34,9 +34,7 @@ const IssueDeleteButton = ({ issueId }: IssueDeleteButtonProps) => {
     <>
       <AlertDialog.Root open={open} onOpenChange={setOpen}>
         <AlertDialog.Trigger onClick={() => setOpen(true)}>
-          <Button color="gray" highContrast>
-            Delete Issue
-          </Button>
+          <Button color="gray">Delete Issue</Button>
         </AlertDialog.Trigger>
 
         <AlertDialog.Content>
@@ -51,12 +49,7 @@ const IssueDeleteButton = ({ issueId }: IssueDeleteButtonProps) => {
               <Button variant="soft">Cancel</Button>
             </AlertDialog.Cancel>
 
-            <Button
-              color="gray"
-              disabled={isDeleting}
-              highContrast
-              onClick={onDelete}
-            >
+            <Button color="gray" disabled={isDeleting} onClick={onDelete}>
               Delete Issue {isDeleting && <Spinner />}
             </Button>
           </Flex>
