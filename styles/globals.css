@@ -21,11 +21,3 @@ body {
     text-wrap: balance;
   }
 }
-
-/* .EasyMDEContainer .editor-toolbar */
-/* .EasyMDEContainer .CodeMirror.CodeMirror-focused {
-  @apply border-2 border-cyan-500;
-}
-.EasyMDEContainer .editor-toolbar:focus {
-  @apply border-2 border-cyan-500;
-} */
