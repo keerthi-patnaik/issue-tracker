@@ -2,10 +2,12 @@ import { Container, Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import "react-toastify/dist/ReactToastify.css";
+import "../styles/globals.css";
+import "../styles/react-toastify.css";
+import "../styles/theme-config.css";
 import ClientProvider from "./ClientProvider";
 import NavBar from "./NavBar";
-import "./globals.css";
-import "./theme-config.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
