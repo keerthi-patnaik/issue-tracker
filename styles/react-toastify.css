@@ -1,0 +1,10 @@
+:root {
+  --toastify-color-info: rgb(9, 177, 206);
+  --toastify-color-error: rgb(215, 40, 84);
+
+  --toastify-icon-color-info: var(--toastify-color-info);
+  --toastify-icon-color-error: var(--toastify-color-error);
+
+  --toastify-color-progress-info: var(--toastify-color-info);
+  --toastify-color-progress-error: var(--toastify-color-error);
+}
