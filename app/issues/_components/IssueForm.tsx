@@ -37,7 +37,6 @@ const IssueForm = ({ issue }: IssueFormProps) => {
 
   const onSubmit = async (data: FieldValues) => {
     setSubmitting(true);
-    console.log(data);
 
     try {
       if (issue) {
