@@ -1,8 +1,11 @@
 import { CustomLink, IssueStatusBadge } from "@/app/components";
+import { statuses } from "@/lib/ValidationSchema";
 import prisma from "@/prisma/client";
 import { Issue, Status } from "@prisma/client";
 import { Table, Text } from "@radix-ui/themes";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { HiArrowNarrowDown, HiArrowNarrowUp } from "react-icons/hi";
 import IssueToolbar from "../_components/IssueToolbar";
 
 const columnNames: { label: string; value: keyof Issue; className?: string }[] =
@@ -12,16 +15,68 @@ const columnNames: { label: string; value: keyof Issue; className?: string }[] =
     { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
   ];
 
+const allowedOrderBy = columnNames.map((column) => {
+  return column.value;
+});
+
+const allowedSortOrder = ["asc", "desc"] as const;
+
 type IssuePageProps = {
-  searchParams: { status: Status };
+  searchParams: {
+    status: Status;
+    orderBy: keyof Issue;
+    sortOrder: (typeof allowedSortOrder)[number];
+  };
 };
 
 const IssuePage = async ({ searchParams }: IssuePageProps) => {
+  if (searchParams.status && !statuses.includes(searchParams.status)) {
+    redirect("/issues/list");
+  }
+
+  if (searchParams.orderBy && !allowedOrderBy.includes(searchParams.orderBy)) {
+    redirect("/issues/list");
+  }
+
+  if (
+    searchParams.sortOrder &&
+    !allowedSortOrder.includes(searchParams.sortOrder)
+  ) {
+    redirect("/issues/list");
+  }
+
+  const status = searchParams.status ? searchParams.status : undefined;
+
+  const orderBy = searchParams.orderBy
+    ? { [searchParams.orderBy]: searchParams.sortOrder }
+    : undefined;
+
+  const toggleOrder = () => {
+    if (!searchParams.sortOrder) {
+      return "asc";
+    }
+
+    if (searchParams.sortOrder === "asc") {
+      return "desc";
+    }
+
+    return undefined;
+  };
+
   const issues = await prisma.issue.findMany({
-    where: { status: searchParams.status },
+    where: { status: status },
+    orderBy: orderBy,
   });
 
-  http: return (
+  let sortOrderComp: React.ReactNode = null;
+  if (searchParams.sortOrder === "asc") {
+    sortOrderComp = <HiArrowNarrowUp className="inline" />;
+  }
+  if (searchParams.sortOrder === "desc") {
+    sortOrderComp = <HiArrowNarrowDown className="inline" />;
+  }
+
+  return (
     <div>
       <IssueToolbar queryStatus={searchParams.status} />
       <Table.Root variant="surface">
@@ -39,11 +94,13 @@ const IssuePage = async ({ searchParams }: IssuePageProps) => {
                       query: {
                         status: searchParams.status,
                         orderBy: column.value,
+                        sortOrder: toggleOrder(),
                       },
                     }}
                   >
                     {column.label}
                   </Link>
+                  {column.value === searchParams.orderBy && sortOrderComp}
                 </Table.ColumnHeaderCell>
               );
             })}
