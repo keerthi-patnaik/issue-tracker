@@ -1,5 +1,6 @@
 "use client";
 import { Button, Flex, Text } from "@radix-ui/themes";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   FaAngleLeft,
   FaAngleRight,
@@ -14,6 +15,15 @@ type PaginationProps = {
 };
 
 const Pagination = ({ itemCount, pageSize, currentPage }: PaginationProps) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const changePage = (page: number) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", page.toString());
+    router.push(`?${params.toString()}`);
+  };
+
   const pageCount = Math.ceil(itemCount / pageSize);
 
   if (pageCount <= 1) return null;
@@ -27,7 +37,9 @@ const Pagination = ({ itemCount, pageSize, currentPage }: PaginationProps) => {
         variant="soft"
         color="gray"
         disabled={currentPage === 1}
-        onClick={() => {}}
+        onClick={() => {
+          changePage(1);
+        }}
       >
         <FaAnglesLeft />
       </Button>
@@ -36,7 +48,9 @@ const Pagination = ({ itemCount, pageSize, currentPage }: PaginationProps) => {
         variant="soft"
         color="gray"
         disabled={currentPage === 1}
-        onClick={() => {}}
+        onClick={() => {
+          changePage(currentPage - 1);
+        }}
       >
         <FaAngleLeft />
       </Button>
@@ -45,7 +59,9 @@ const Pagination = ({ itemCount, pageSize, currentPage }: PaginationProps) => {
         variant="soft"
         color="gray"
         disabled={currentPage === pageCount}
-        onClick={() => {}}
+        onClick={() => {
+          changePage(currentPage + 1);
+        }}
       >
         <FaAngleRight />
       </Button>
@@ -54,7 +70,9 @@ const Pagination = ({ itemCount, pageSize, currentPage }: PaginationProps) => {
         variant="soft"
         color="gray"
         disabled={currentPage === pageCount}
-        onClick={() => {}}
+        onClick={() => {
+          changePage(pageCount);
+        }}
       >
         <FaAnglesRight />
       </Button>
