@@ -32,11 +32,11 @@ const IssueDeleteButton = ({ issueId }: IssueDeleteButtonProps) => {
 
   return (
     <>
-      <AlertDialog.Root open={open} onOpenChange={setOpen}>
-        <AlertDialog.Trigger onClick={() => setOpen(true)}>
-          <Button color="gray">Delete Issue</Button>
-        </AlertDialog.Trigger>
+      <Button color="gray" onClick={() => setOpen(true)}>
+        Delete Issue
+      </Button>
 
+      <AlertDialog.Root open={open} onOpenChange={setOpen}>
         <AlertDialog.Content>
           <AlertDialog.Title>Confirm Deletion</AlertDialog.Title>
           <AlertDialog.Description size="2">
