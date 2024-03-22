@@ -1,4 +1,4 @@
-import { CustomLink, IssueStatusBadge } from "@/app/components";
+import { CustomLink, IssueStatusBadge, Pagination } from "@/app/components";
 import { statuses } from "@/lib/ValidationSchema";
 import prisma from "@/prisma/client";
 import { Issue, Status } from "@prisma/client";
@@ -26,6 +26,7 @@ type IssuePageProps = {
     status: Status;
     orderBy: keyof Issue;
     sortOrder: (typeof allowedSortOrder)[number];
+    page: string;
   };
 };
 
@@ -63,9 +64,19 @@ const IssuePage = async ({ searchParams }: IssuePageProps) => {
     return undefined;
   };
 
+  const page = parseInt(searchParams.page) || 1;
+
+  const pageSize = 10;
+
   const issues = await prisma.issue.findMany({
     where: { status: status },
     orderBy: orderBy,
+    skip: (page - 1) * pageSize,
+    take: pageSize,
+  });
+
+  const IssueCount = await prisma.issue.count({
+    where: { status: status },
   });
 
   let sortOrderComp: React.ReactNode = null;
@@ -129,6 +140,11 @@ const IssuePage = async ({ searchParams }: IssuePageProps) => {
           })}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        pageSize={pageSize}
+        currentPage={page}
+        itemCount={IssueCount}
+      />
     </div>
   );
 };
