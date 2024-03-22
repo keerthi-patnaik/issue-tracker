@@ -3,6 +3,7 @@ import { statuses } from "@/lib/ValidationSchema";
 import prisma from "@/prisma/client";
 import { Issue, Status } from "@prisma/client";
 import { Flex } from "@radix-ui/themes";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import IssueToolbar from "../_components/IssueToolbar";
 import IssueTable, { columnNames } from "./IssueTable";
@@ -85,4 +86,10 @@ const IssuePage = async ({ searchParams }: IssuePageProps) => {
 };
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Issue Tracker - Issue List",
+  description: "View all project issues",
+};
+
 export default IssuePage;
