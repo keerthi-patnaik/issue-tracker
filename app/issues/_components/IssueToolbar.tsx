@@ -11,7 +11,7 @@ const IssueToolbar = ({ queryStatus }: IssueToolbarProps) => {
     <Flex justify="between" mb="3">
       <Flex gap="2">
         <IssueStatusFilter queryStatus={queryStatus} />
-        <Button variant="soft">
+        <Button variant="soft" color="gray">
           <Link href="/issues/list"> clear Filter</Link>
         </Button>
       </Flex>
