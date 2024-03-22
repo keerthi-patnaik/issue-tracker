@@ -23,15 +23,15 @@ const IssueSummary = ({ open, inProgress, closed }: IssueSummeryProps) => {
     <Flex gap="4">
       {CardContents.map((content, index) => {
         return (
-          <Card size="1" style={{ width: 350 }} variant="classic" key={index}>
+          <Card size="2" variant="classic" key={index} className="flex-1">
             <Flex direction="column" gap="3">
               <Link
-                className="text-sm"
-                href={`/issues/list?${content.queryParam}`}
+                className="text-sm font-medium"
+                href={`/issues/list?status=${content.queryParam}`}
               >
                 {content.name}
               </Link>
-              <Text size="5" weight="bold">
+              <Text size="5" className="font-bold text-slate-400">
                 {content.value}
               </Text>
             </Flex>

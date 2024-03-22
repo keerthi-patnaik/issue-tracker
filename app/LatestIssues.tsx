@@ -8,7 +8,7 @@ const LatestIssues = async () => {
     orderBy: {
       createdAt: "desc",
     },
-    take: 5,
+    take: 7,
     include: {
       assignedToUser: true,
     },
@@ -26,7 +26,12 @@ const LatestIssues = async () => {
                 <Table.Cell className="shadow-none">
                   <Flex justify="between">
                     <Flex direction="column" align="start" gap="2">
-                      <Link href={`issues/${issue.id}`}>{issue.title}</Link>
+                      <Link
+                        href={`issues/${issue.id}`}
+                        className="text-sm font-medium"
+                      >
+                        {issue.title}
+                      </Link>
                       <IssueStatusBadge status={issue.status} />
                     </Flex>
                     {issue.assignedToUserId && (
