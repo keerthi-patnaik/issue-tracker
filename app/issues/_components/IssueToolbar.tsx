@@ -8,7 +8,7 @@ type IssueToolbarProps = {
 
 const IssueToolbar = ({ queryStatus }: IssueToolbarProps) => {
   return (
-    <Flex justify="between" mb="3">
+    <Flex justify="between">
       <Flex gap="2">
         <IssueStatusFilter queryStatus={queryStatus} />
         <Button variant="soft" color="gray">

@@ -2,6 +2,7 @@ import { Pagination } from "@/app/components";
 import { statuses } from "@/lib/ValidationSchema";
 import prisma from "@/prisma/client";
 import { Issue, Status } from "@prisma/client";
+import { Flex } from "@radix-ui/themes";
 import { redirect } from "next/navigation";
 import IssueToolbar from "../_components/IssueToolbar";
 import IssueTable, { columnNames } from "./IssueTable";
@@ -69,15 +70,17 @@ const IssuePage = async ({ searchParams }: IssuePageProps) => {
   });
 
   return (
-    <div>
+    <Flex direction="column" gap="3">
       <IssueToolbar queryStatus={searchParams.status} />
       <IssueTable searchParams={searchParams} issues={issues} />
-      <Pagination
-        pageSize={pageSize}
-        currentPage={page}
-        itemCount={IssueCount}
-      />
-    </div>
+      <Flex justify="end">
+        <Pagination
+          pageSize={pageSize}
+          currentPage={page}
+          itemCount={IssueCount}
+        />
+      </Flex>
+    </Flex>
   );
 };
 
