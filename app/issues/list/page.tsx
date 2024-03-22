@@ -1,25 +1,12 @@
-import { CustomLink, IssueStatusBadge, Pagination } from "@/app/components";
+import { Pagination } from "@/app/components";
 import { statuses } from "@/lib/ValidationSchema";
 import prisma from "@/prisma/client";
 import { Issue, Status } from "@prisma/client";
-import { Table, Text } from "@radix-ui/themes";
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { HiArrowNarrowDown, HiArrowNarrowUp } from "react-icons/hi";
 import IssueToolbar from "../_components/IssueToolbar";
+import IssueTable, { columnNames } from "./IssueTable";
 
-const columnNames: { label: string; value: keyof Issue; className?: string }[] =
-  [
-    { label: "Issue", value: "title" },
-    { label: "Status", value: "status", className: "hidden md:table-cell" },
-    { label: "Created", value: "createdAt", className: "hidden md:table-cell" },
-  ];
-
-const allowedOrderBy = columnNames.map((column) => {
-  return column.value;
-});
-
-const allowedSortOrder = ["asc", "desc"] as const;
+export const allowedSortOrder = ["asc", "desc"] as const;
 
 type IssuePageProps = {
   searchParams: {
@@ -29,6 +16,8 @@ type IssuePageProps = {
     page: string;
   };
 };
+
+const allowedOrderBy = columnNames;
 
 const IssuePage = async ({ searchParams }: IssuePageProps) => {
   if (searchParams.status && !statuses.includes(searchParams.status)) {
@@ -79,67 +68,10 @@ const IssuePage = async ({ searchParams }: IssuePageProps) => {
     where: { status: status },
   });
 
-  let sortOrderComp: React.ReactNode = null;
-  if (searchParams.sortOrder === "asc") {
-    sortOrderComp = <HiArrowNarrowUp className="inline" />;
-  }
-  if (searchParams.sortOrder === "desc") {
-    sortOrderComp = <HiArrowNarrowDown className="inline" />;
-  }
-
   return (
     <div>
       <IssueToolbar queryStatus={searchParams.status} />
-      <Table.Root variant="surface">
-        <Table.Header>
-          <Table.Row>
-            {columnNames.map((column) => {
-              return (
-                <Table.ColumnHeaderCell
-                  key={column.label}
-                  className={column.className}
-                >
-                  <Link
-                    href={{
-                      pathname: "/issues/list",
-                      query: {
-                        status: searchParams.status,
-                        orderBy: column.value,
-                        sortOrder: toggleOrder(),
-                      },
-                    }}
-                  >
-                    {column.label}
-                  </Link>
-                  {column.value === searchParams.orderBy && sortOrderComp}
-                </Table.ColumnHeaderCell>
-              );
-            })}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {issues.map((issue) => {
-            return (
-              <Table.Row key={issue.id}>
-                <Table.Cell>
-                  <CustomLink href={`/issues/${issue.id}`}>
-                    <Text>{issue.title}</Text>
-                  </CustomLink>
-                  <div className="block md:hidden">
-                    <IssueStatusBadge status={issue.status} />
-                  </div>
-                </Table.Cell>
-                <Table.Cell className="hidden md:table-cell">
-                  <IssueStatusBadge status={issue.status} />
-                </Table.Cell>
-                <Table.Cell className="hidden md:table-cell">
-                  {issue.createdAt.toDateString()}
-                </Table.Cell>
-              </Table.Row>
-            );
-          })}
-        </Table.Body>
-      </Table.Root>
+      <IssueTable searchParams={searchParams} issues={issues} />
       <Pagination
         pageSize={pageSize}
         currentPage={page}
