@@ -1,7 +1,6 @@
 import prisma from "@/prisma/client";
 import { Avatar, Card, Flex, Heading, Table } from "@radix-ui/themes";
 import Link from "next/link";
-import { RxAvatar } from "react-icons/rx";
 import { IssueStatusBadge } from "./components";
 
 const LatestIssues = async () => {
@@ -34,7 +33,10 @@ const LatestIssues = async () => {
                       <Avatar
                         size="2"
                         radius="full"
-                        fallback={<RxAvatar size="25" />}
+                        fallback="?"
+                        referrerPolicy="no-referrer"
+                        color="gray"
+                        highContrast
                         src={issue.assignedToUser?.image!}
                       />
                     )}
