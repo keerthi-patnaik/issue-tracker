@@ -13,6 +13,7 @@ import { useState } from "react";
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import SimpleMdeReact from "react-simplemde-editor";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 type IssueFormData = z.infer<typeof issueSchema>;
@@ -44,9 +45,14 @@ const IssueForm = ({ issue }: IssueFormProps) => {
       } else {
         await axios.post("/api/issues", data);
       }
-
       router.push("/issues/list");
       router.refresh();
+
+      if (issue) {
+        toast.info("Issue updated successfully");
+      } else {
+        toast.info("New Issue is added");
+      }
     } catch (error) {
       setSubmitting(false);
       setError("A unexpected error has occurred");
