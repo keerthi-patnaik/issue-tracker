@@ -6,9 +6,7 @@ import { Flex } from "@radix-ui/themes";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import IssueToolbar from "../_components/IssueToolbar";
-import IssueTable, { columnNames } from "./IssueTable";
-
-export const allowedSortOrder = ["asc", "desc"] as const;
+import IssueTable, { allowedSortOrder, columnNames } from "./IssueTable";
 
 type IssuePageProps = {
   searchParams: {

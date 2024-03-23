@@ -3,7 +3,8 @@ import { Issue, Status } from "@prisma/client";
 import { Table, Text } from "@radix-ui/themes";
 import Link from "next/link";
 import { HiArrowNarrowDown, HiArrowNarrowUp } from "react-icons/hi";
-import { allowedSortOrder } from "./page";
+
+export const allowedSortOrder = ["asc", "desc"] as const;
 
 type IssueTableProps = {
   issues: Issue[];
