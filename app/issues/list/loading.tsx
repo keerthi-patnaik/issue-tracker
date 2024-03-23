@@ -7,7 +7,7 @@ const issues = [1, 2, 3, 4, 5];
 const LoadingIssuePage = () => {
   return (
     <>
-      <IssueToolbar />
+      <IssueToolbar queryStatus="" />
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>

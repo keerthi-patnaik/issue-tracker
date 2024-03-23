@@ -5,3 +5,5 @@ export async function GET(request: NextRequest) {
   const users = await prisma.user.findMany({ orderBy: { name: "asc" } });
   return NextResponse.json(users, { status: 200 });
 }
+
+export const dynamic = "force-dynamic";
