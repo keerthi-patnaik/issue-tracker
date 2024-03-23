@@ -15,7 +15,7 @@ const IssueDetails = ({ issue }: IssueDetailsProps) => {
         <IssueStatusBadge status={issue.status} />
         <Text>{issue.createdAt.toLocaleDateString()}</Text>
       </Flex>
-      <Card>
+      <Card variant="classic">
         <Markdown className="prose max-w-full">{issue.description}</Markdown>
       </Card>
     </>
